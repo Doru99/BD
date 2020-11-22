@@ -78,6 +78,7 @@ if (isset($_POST['trimite'])) {
         <br>
         <button type="submit" name="trimite" value="send">Adauga</button>
     </form>
+    <a href="index.php">Inapoi</a>
 
 <?php
     }
