@@ -1,0 +1,81 @@
+:root{
+    --yellow-color: #ffd369;
+    --white-color: #f6f4e6;
+    --grey-color: #52575d;
+    --black-color: #41444b;
+    --blue-color: #14274e;
+    --ice-color: #6699ff;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: var(--yellow-color);
+}
+  
+.topnav {
+    background-color: var(--black-color);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 5%;
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+  
+  .topnav a:last-child{
+    float: right;
+}
+  
+  .topnav a:hover {
+    background-color: var(--white-color);
+    color: black;
+}
+  
+  .topnav a.active {
+    background-color: var(--ice-color);
+    color: white;
+}
+
+form{
+    background-color: var(--white-color);
+    /* opacity: 0.9; */
+    width: 60%;
+    margin: 5% 20% 10% 20%;
+    border: 1px solid var(--black-color);
+    border-radius: 25px;
+}
+
+label, input{
+    display: block;
+    margin-left: 20%;
+    width: 60%;
+}
+
+input{
+    margin-bottom: 5%;
+    padding: 12px 20px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+label:first-child{
+    margin-top: 5%;
+}
+
+button{
+    background-color: var(--blue-color);
+    width: 10%;
+    margin:0 45% 5% 45%;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    cursor: pointer;
+    display: block;
+}

@@ -42,46 +42,61 @@ if (isset($_POST['trimite'])) {
 
 <html>
 <head>
+    <link rel="stylesheet" href="adauga.css">
 </head>
 <body>
 
 <?php
     if ($_SESSION["admin"]) {
 ?>
-    <form action="adauga.php" method="POST">
-        <input type="text" name="nume" placeholder="Enter Last name">
-        <label for="nume">Last Name</label>
-        <br>
-        <input type="text" name="prenume" placeholder="Enter First Name">
-        <label for="prenume">First Name</label>
-        <br>
-        <input type="text" size=13 name="cnp" placeholder="Enter CNP">
-        <label for="cnp">CNP</label>
-        <br>
-        <input type="text" name="strada" placeholder="Enter Street Name">
-        <label for="strada">Street</label>
-        <br>
-        <input type="text" name="oras" placeholder="Enter City">
-        <label for="oras">City</label>
-        <br>
-        <input type="text" name="judet" placeholder="Enter County">
-        <label for="judet">County</label>
-        <br>
-        <input type="text" name="sex" placeholder="Choose Gender">
-        <label for="sex">Gender</label>
-        <br>
-        <input type="date" name="data">
-        <label for="data">Data Nasterii</label>
-        <br>
-        <input type="number" name="salariu" min="0" max="99999">
-        <label for="salariu">Salariu</label>
-        <br>
-        <button type="submit" name="trimite" value="send">Adauga</button>
-    </form>
-    <a href="index.php">Inapoi</a>
 
-<?php
+        <div class="topnav">
+            <a href="index.php">Home</a>
+            <a class="active" href="adauga.php">Add Employ</a>
+            <a href="login.php">Logout</a>
+        </div>
+        <form action="adauga.php" method="POST">
+            
+            <label for="nume">Last Name</label>
+            <input type="text" name="nume" placeholder="Enter Last name" required>
+            <br>
+            
+            <label for="prenume">First Name</label>
+            <input type="text" name="prenume" placeholder="Enter First Name">
+            <br>
+            
+            <label for="cnp">CNP</label>
+            <input type="text" size=13 name="cnp" placeholder="Enter CNP" required>
+            <br>
+            
+            <label for="strada">Street</label>
+            <input type="text" name="strada" placeholder="Enter Street Name" required>
+            <br>
+            
+            <label for="oras">City</label>
+            <input type="text" name="oras" placeholder="Enter City" required>
+            <br>
+            
+            <label for="judet">County</label>
+            <input type="text" name="judet" placeholder="Enter County" required>
+            <br>
+            
+            <label for="sex">Gender</label>
+            <input type="text" name="sex" placeholder="Choose Gender" required>
+            <br>
+            
+            <label for="data">Data Nasterii</label>
+            <input type="date" name="data" max="31-12-2002" required>
+            <br>
+            
+            <label for="salariu">Salariu</label>
+            <input type="number" name="salariu" placeholder="Salary" min="0" max="99999" required>
+            <br>
+            <button type="submit" name="trimite" value="send">Adauga</button>
+        </form>
+
+    <?php    
     }
-?>
+    ?>
 
 </body>
