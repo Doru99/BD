@@ -86,7 +86,7 @@ if (isset($_POST['trimite'])) {
             <br>
             
             <label for="data">Data Nasterii</label>
-            <input type="date" name="data" max="31-12-2002" required>
+            <input type="date" name="data" max="2002-12-31" required>
             <br>
             
             <label for="salariu">Salariu</label>
