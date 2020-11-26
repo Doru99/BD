@@ -33,7 +33,7 @@ body{
     float: right;
 }
   
-  .topnav a:hover {
+  .topnav a:not(:first-child):hover {
     background-color: var(--white-color);
     color: black;
 }
@@ -78,4 +78,10 @@ button{
     border: none;
     cursor: pointer;
     display: block;
+}
+
+.logo {
+    width: 40px;
+    height: 20px;
+    border-radius: 50%;
 }

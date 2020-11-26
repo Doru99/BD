@@ -35,6 +35,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
 
 ?>
         <div class="topnav">
+            <a href=""><img class="logo" src="imagini/LOGOALB.png"></a>
             <a class="active" href="index.php">Home</a>
             
             <?php

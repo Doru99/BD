@@ -33,7 +33,7 @@ body{
   float: right;
 }
 
-.topnav a:hover {
+.topnav a:not(:first-child):hover {
   background-color: var(--white-color);
   color: black;
 }
@@ -76,4 +76,10 @@ hr{
   border: none;
   border-top: 1px solid black;
   width: 60%;
+}
+
+.logo {
+  width: 40px;
+  height: 20px;
+  border-radius: 50%;
 }

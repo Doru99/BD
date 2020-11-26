@@ -51,6 +51,7 @@ if (isset($_POST['trimite'])) {
 ?>
 
         <div class="topnav">
+            <a href=""><img class="logo" src="imagini/LOGOALB.png"></a>
             <a href="index.php">Home</a>
             <a class="active" href="adauga.php">Add Employ</a>
             <a href="login.php">Logout</a>

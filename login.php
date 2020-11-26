@@ -11,6 +11,7 @@ $conn=sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS",array("Database"=>"GSM_OpreaSt
     </head>
     <body>
         <form method="POST" action="index.php">
+            <img class="logo" src="imagini/LOGOALBASTRU.PNG">
             <label for="CNP"><b>CNP</b></label>
             <input type="text" placeholder="Enter CNP" name="CNP">
             <label for="pass" style="display:none;"><b>Password</b></label>
