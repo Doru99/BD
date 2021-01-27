@@ -43,6 +43,21 @@ body{
   color: white;
 }
 
+#laptop_list{
+  float: left;
+  margin: 0 0 0 2%;
+  width: 65%;
+  background-color: ivory;
+  padding: 5% 0 5% 0;
+}
+
+.laptop{
+  display: inline-block;
+  width: 30%;
+  margin-left: 2.5%;
+  border: 1px solid var(--black-color);
+}
+
 #profile{
   background-color: var(--white-color);
   border: 1px solid var(--blue-color);
@@ -82,4 +97,44 @@ hr{
   width: 40px;
   height: 20px;
   border-radius: 50%;
+}
+
+#stoc_list {
+  display: inline-block;
+  width: 72%;
+  margin: 5% 10% 5% 10%;
+  padding: 4%;
+  background-color: var(--white-color);
+}
+
+.filter, #stoc_list > table{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.filter{
+  width: 20%;
+  border-right: 2px solid var(--blue-color);
+  border-radius: 20%;
+}
+
+.filter > br {
+  display: block;
+  content:" ";
+  margin-top: 5%;
+}
+
+#stoc_list > table > tbody > tr, #stoc_list > table > tbody > tr > td, #stoc_list > table > tbody > tr > th {
+  border: 1px dotted var(--black-color);
+}
+
+#stoc_list > table > tbody > tr > td, #stoc_list > table > tbody > tr > th{
+  padding: 5px;
+}
+
+#stoc_list > table {
+  border: 1px solid var(--black-color);
+  border-collapse: collapse;
+  margin-left: 20%;
+  font-size: 24px;
 }

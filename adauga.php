@@ -31,10 +31,9 @@ if (isset($_POST['trimite'])) {
     if  ($_POST['salariu']) {
         $sal=$_POST['salariu'];
     }
-    echo $nume.$prenume.$cnp.$str.$oras.$jud.$sex.$data.$sal;
 
     $query="INSERT INTO Angajati(Nume, Prenume, CNP, Strada, Oras, Judet, Sex, DataNasterii, Salariu)
-    VALUES('$nume','$prenume','$cnp','$str','$oras','$jud','$sex','$data','$sal')";
+    VALUES('$nume','$prenume','$cnp','$str','$oras','$jud','$sex','$data','$sal')"; //insert tabel 1
     sqlsrv_query($conn,$query);
 }
 
@@ -54,6 +53,7 @@ if (isset($_POST['trimite'])) {
             <a href=""><img class="logo" src="imagini/LOGOALB.png"></a>
             <a href="index.php">Home</a>
             <a class="active" href="adauga.php">Add Employ</a>
+            <a href="remove.php">Remove Employ</a>
             <a href="login.php">Logout</a>
         </div>
         <form action="adauga.php" method="POST">

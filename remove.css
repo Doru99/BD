@@ -1,0 +1,89 @@
+:root{
+    --yellow-color: #ffd369;
+    --white-color: #f6f4e6;
+    --grey-color: #52575d;
+    --black-color: #41444b;
+    --blue-color: #14274e;
+    --ice-color: #6699ff;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+    background-color: var(--yellow-color);
+}
+  
+.topnav {
+    background-color: var(--black-color);
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 5%;
+}
+
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+  
+  .topnav a:last-child{
+    float: right;
+}
+  
+  .topnav a:not(:first-child):hover {
+    background-color: var(--white-color);
+    color: black;
+}
+  
+  .topnav a.active {
+    background-color: var(--ice-color);
+    color: white;
+}
+
+.logo {
+    width: 40px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+table{
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: var(--white-color);
+    opacity: 0.9; 
+    width: 60%;
+    margin: 5% 20% 10% 20%;
+}
+
+table, td, th {
+    border: 1px solid var(--black-color);
+}
+
+table{
+    border-collapse: collapse;
+}
+
+th{
+    color: var(--white-color);
+    background-color: var(--blue-color);
+}
+
+form{
+    margin:0;
+}
+
+input[type="submit"]{
+  position: relative;
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  overflow: hidden;
+  background-color:red;
+  border: none;
+  clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+  vertical-align: middle;
+  margin:auto;
+}
