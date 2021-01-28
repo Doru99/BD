@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_OpreaStefanTeodor_333AA"));
+$conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_OpreaStefanTeodor_333AA")); //conexiune baza de date
 
 ?>
 
@@ -19,14 +19,19 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
         $query="DELETE FROM Angajati WHERE CNP = '$cnp'"; //delete tabel 1
         sqlsrv_query($conn, $query);
     }
+    if (isset($_POST["creste10"])) {
+        $query="UPDATE Angajati
+        SET Salariu = 1.1 * Salariu"; //update tabel 1
+        sqlsrv_query($conn, $query);
+    }
     if ($_SESSION["admin"]) {
 ?>
 
         <div class="topnav">
             <a href=""><img class="logo" src="imagini/LOGOALB.png"></a>
-            <a href="index.php">Home</a>
-            <a href="adauga.php">Add Employ</a>
-            <a class="active" href="remove.php">Remove Employ</a>
+            <a href="index.php">Acasa</a>
+            <a href="adauga.php">Adauga</a>
+            <a class="active" href="remove.php">Gestiune Angajati</a>
             <a href="login.php">Logout</a>
         </div>
 
@@ -58,6 +63,10 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
         }
         ?>
         </table>
+
+        <form action="remove.php" method="POST">
+            <input type="submit" name="creste10" value="Creste salariile cu 10%">
+        </form>
         
 <?php
     }

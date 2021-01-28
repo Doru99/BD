@@ -1,7 +1,7 @@
 <?php
 
 session_start();
-$conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_OpreaStefanTeodor_333AA"));
+$conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_OpreaStefanTeodor_333AA")); //conectare
 
 ?>
 
@@ -36,16 +36,32 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
             if ($_SESSION["CNP"] == $row['CNP']) $_SESSION["admin"] = 1;
         }
 
+        if (isset($_POST["Salvare"])) {
+            $pret = $_POST["pret"];
+            $stoc = $_POST["stoc"];
+            $piesa = $_POST["piesa"];
+            $query = "UPDATE Componente
+            SET Stoc = '$stoc', Pret = '$pret'
+            WHERE Nume = '$piesa'"; //update tabel 2
+            sqlsrv_query($conn, $query);
+        }
+
+        if (isset($_POST["Delete"])) {
+            $nume_comp = $_POST["component_del"];
+            $query="DELETE FROM Componente WHERE Nume = '$nume_comp'"; //delete tabel 2
+            sqlsrv_query($conn, $query);
+        }
+
 ?>
         <div class="topnav">
             <a href=""><img class="logo" src="imagini/LOGOALB.png"></a>
-            <a class="active" href="index.php">Home</a>
+            <a class="active" href="index.php">Acasa</a>
             
             <?php
             if ($_SESSION["admin"]) {
             ?>
-                <a href="adauga.php">Add Employ</a>
-                <a href="remove.php">Remove Employ</a>
+                <a href="adauga.php">Adauga</a>
+                <a href="remove.php">Gestiune Angajati</a>
             <?php    
             }
             ?>
@@ -64,7 +80,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
             <?php
             $query = "SELECT L.Nume Proprietar, P.Nume Model, A.Nume, A.Prenume, L.OreReparatie FROM Laptopuri L
             JOIN Angajati A ON A.AngajatID = L.ReparatorID 
-            JOIN Producatori P ON L.ProducatorID = P.ProducatorID"; //interogare simpla 3
+            JOIN Producatori P ON L.ProducatorID = P.ProducatorID"; //interogare simpla 2
             $run = sqlsrv_query($conn, $query);
             while ($row = sqlsrv_fetch_array($run)) {
             ?>
@@ -91,7 +107,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                             $query = "SELECT C.Nume Piesa FROM Componente C
                             JOIN LaptopComponenta LC ON LC.ComponentaID = C.ComponentaID
                             JOIN Laptopuri L ON L.LaptopID = LC.LaptopID
-                            WHERE L.Nume = '$proprietar'"; //interogare simpla 4
+                            WHERE L.Nume = '$proprietar'"; //interogare simpla 3
                             $run_comp = sqlsrv_query($conn, $query);
                             if ($row_comp = sqlsrv_fetch_array($run_comp)) {
                                 echo $row_comp["Piesa"];
@@ -154,6 +170,14 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                     <th>Nume</th>
                     <th>Stoc</th>
                     <th>Pret</th>
+                    <?php
+                    if ($_SESSION["admin"] == 1) {
+                        ?>
+                        <th>Modifica</th>
+                        <th>Sterge</th>
+                        <?php
+                    }
+                    ?>
                 </tr>
                 <?php
                 if (isset($_POST["Motherboard"]) or isset($_POST["All"])) {
@@ -161,7 +185,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                     JOIN TipComponente T ON C.TipID = T.TipID
                     JOIN Producatori P ON C.ProducatorID = P.ProducatorID
                     WHERE T.CodTip='MB'
-                    ORDER BY C.Stoc DESC"; //interogare simpla 2
+                    ORDER BY C.Stoc DESC"; //interogare simpla 4
                     $run = sqlsrv_query($conn, $query);
                     while ($row = sqlsrv_fetch_array($run)) {
                         ?>
@@ -170,6 +194,24 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                             <td><?php echo $row["Nume"];?></td>
                             <td><?php echo $row["Stoc"];?></td>
                             <td><?php echo $row["Pret"];?></td>
+                            <?php
+                            if ($_SESSION["admin"] == 1) {
+                            ?>
+                            <td>
+                                <form action="modifica.php" method="POST">
+                                    <input type="hidden" name="component_m" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Modify" value="Modifica">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="index.php" method="POST">
+                                    <input type="hidden" name="component_del" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Delete" value="Sterge">
+                                </form>
+                            </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                         <?php
                     }
@@ -179,7 +221,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                     JOIN TipComponente T ON C.TipID = T.TipID
                     JOIN Producatori P ON C.ProducatorID = P.ProducatorID
                     WHERE T.CodTip='PV'
-                    ORDER BY C.Stoc DESC"; //interogare simpla 2
+                    ORDER BY C.Stoc DESC"; //interogare simpla 4
                     $run = sqlsrv_query($conn, $query);
                     while ($row = sqlsrv_fetch_array($run)) {
                         ?>
@@ -188,6 +230,24 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                             <td><?php echo $row["Nume"];?></td>
                             <td><?php echo $row["Stoc"];?></td>
                             <td><?php echo $row["Pret"];?></td>
+                            <?php
+                            if ($_SESSION["admin"] == 1) {
+                            ?>
+                            <td>
+                                <form action="modifica.php" method="POST">
+                                    <input type="hidden" name="component_m" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Modify" value="Modifica">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="index.php" method="POST">
+                                    <input type="hidden" name="component_del" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Delete" value="Sterge">
+                                </form>
+                            </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                         <?php
                     }
@@ -197,7 +257,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                     JOIN TipComponente T ON C.TipID = T.TipID
                     JOIN Producatori P ON C.ProducatorID = P.ProducatorID
                     WHERE T.CodTip='S'
-                    ORDER BY C.Stoc DESC"; //interogare simpla 2
+                    ORDER BY C.Stoc DESC"; //interogare simpla 4
                     $run = sqlsrv_query($conn, $query);
                     while ($row = sqlsrv_fetch_array($run)) {
                         ?>
@@ -206,6 +266,24 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                             <td><?php echo $row["Nume"];?></td>
                             <td><?php echo $row["Stoc"];?></td>
                             <td><?php echo $row["Pret"];?></td>
+                            <?php
+                            if ($_SESSION["admin"] == 1) {
+                            ?>
+                            <td>
+                                <form action="modifica.php" method="POST">
+                                    <input type="hidden" name="component_m" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Modify" value="Modifica">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="index.php" method="POST">
+                                    <input type="hidden" name="component_del" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Delete" value="Sterge">
+                                </form>
+                            </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                         <?php
                     }
@@ -215,7 +293,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                     JOIN TipComponente T ON C.TipID = T.TipID
                     JOIN Producatori P ON C.ProducatorID = P.ProducatorID
                     WHERE T.CodTip='C'
-                    ORDER BY C.Stoc DESC"; //interogare simpla 2
+                    ORDER BY C.Stoc DESC"; //interogare simpla 4
                     $run = sqlsrv_query($conn, $query);
                     while ($row = sqlsrv_fetch_array($run)) {
                         ?>
@@ -224,6 +302,24 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                             <td><?php echo $row["Nume"];?></td>
                             <td><?php echo $row["Stoc"];?></td>
                             <td><?php echo $row["Pret"];?></td>
+                            <?php
+                            if ($_SESSION["admin"] == 1) {
+                            ?>
+                            <td>
+                                <form action="modifica.php" method="POST">
+                                    <input type="hidden" name="component_m" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Modify" value="Modifica">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="index.php" method="POST">
+                                    <input type="hidden" name="component_del" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Delete" value="Sterge">
+                                </form>
+                            </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                         <?php
                     }
@@ -233,7 +329,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                     JOIN TipComponente T ON C.TipID = T.TipID
                     JOIN Producatori P ON C.ProducatorID = P.ProducatorID
                     WHERE T.CodTip='M'
-                    ORDER BY C.Stoc DESC"; //interogare simpla 2
+                    ORDER BY C.Stoc DESC"; //interogare simpla 4
                     $run = sqlsrv_query($conn, $query);
                     while ($row = sqlsrv_fetch_array($run)) {
                         ?>
@@ -242,6 +338,24 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                             <td><?php echo $row["Nume"];?></td>
                             <td><?php echo $row["Stoc"];?></td>
                             <td><?php echo $row["Pret"];?></td>
+                            <?php
+                            if ($_SESSION["admin"] == 1) {
+                            ?>
+                            <td>
+                                <form action="modifica.php" method="POST">
+                                    <input type="hidden" name="component_m" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Modify" value="Modifica">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="index.php" method="POST">
+                                    <input type="hidden" name="component_del" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Delete" value="Sterge">
+                                </form>
+                            </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                         <?php
                     }
@@ -251,7 +365,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                     JOIN TipComponente T ON C.TipID = T.TipID
                     JOIN Producatori P ON C.ProducatorID = P.ProducatorID
                     WHERE T.CodTip='RAM'
-                    ORDER BY C.Stoc DESC"; //interogare simpla 2
+                    ORDER BY C.Stoc DESC"; //interogare simpla 4
                     $run = sqlsrv_query($conn, $query);
                     while ($row = sqlsrv_fetch_array($run)) {
                         ?>
@@ -260,6 +374,24 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                             <td><?php echo $row["Nume"];?></td>
                             <td><?php echo $row["Stoc"];?></td>
                             <td><?php echo $row["Pret"];?></td>
+                            <?php
+                            if ($_SESSION["admin"] == 1) {
+                            ?>
+                            <td>
+                                <form action="modifica.php" method="POST">
+                                    <input type="hidden" name="component_m" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Modify" value="Modifica">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="index.php" method="POST">
+                                    <input type="hidden" name="component_del" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Delete" value="Sterge">
+                                </form>
+                            </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                         <?php
                     }
@@ -269,7 +401,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                     JOIN TipComponente T ON C.TipID = T.TipID
                     JOIN Producatori P ON C.ProducatorID = P.ProducatorID
                     WHERE T.CodTip='Mem'
-                    ORDER BY C.Stoc DESC"; //interogare simpla 2
+                    ORDER BY C.Stoc DESC"; //interogare simpla 4
                     $run = sqlsrv_query($conn, $query);
                     while ($row = sqlsrv_fetch_array($run)) {
                         ?>
@@ -278,6 +410,24 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
                             <td><?php echo $row["Nume"];?></td>
                             <td><?php echo $row["Stoc"];?></td>
                             <td><?php echo $row["Pret"];?></td>
+                            <?php
+                            if ($_SESSION["admin"] == 1) {
+                            ?>
+                            <td>
+                                <form action="modifica.php" method="POST">
+                                    <input type="hidden" name="component_m" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Modify" value="Modifica">
+                                </form>
+                            </td>
+                            <td>
+                                <form action="index.php" method="POST">
+                                    <input type="hidden" name="component_del" value="<?php echo $row["Nume"]?>">
+                                    <input type="submit" name="Delete" value="Sterge">
+                                </form>
+                            </td>
+                            <?php
+                            }
+                            ?>
                         </tr>
                         <?php
                     }
@@ -285,6 +435,170 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
             }
             ?>
             </table>   
+        </div>
+
+        <div class="wrapper">
+             <?php
+                $sql="SELECT A.Nume, A.Prenume, COUNT(L.LaptopID) Laptopuri FROM Angajati A
+                LEFT JOIN Laptopuri L ON A.AngajatID = L.ReparatorID
+                GROUP BY A.Nume, A.Prenume
+                HAVING SUM(L.OreReparatie) > 1"; //interogare simpla 5
+                $run = sqlsrv_query($conn, $sql);
+                ?>
+                <table>
+                    <tr>
+                        <th>Nume</th>
+                        <th>Prenume</th>
+                        <th>Laptopuri reparate</th>
+                    </tr>
+                <?php
+                while($row = sqlsrv_fetch_array($run)) {
+                    ?>
+                    <tr>
+                    <td><?php echo $row["Nume"];?></td>
+                    <td><?php echo $row["Prenume"];?></td>
+                    <td><?php echo $row["Laptopuri"];?></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                </table> 
+        </div>
+
+        <div class="wrapper">
+            <?php
+            $sql="SELECT TOP 1 P.Nume Producator, SUM(C.Stoc) Stoc FROM Producatori P
+            JOIN Componente C ON P.ProducatorID = C.ProducatorID
+            GROUP BY P.Nume
+            ORDER BY SUM(C.Stoc) DESC"; //interogare simpla 6
+            $run = sqlsrv_query($conn, $sql);
+            ?>
+            <table>
+                <tr>
+                    <th>Producator</th>
+                    <th>Produse cumparate</th>
+                </tr>
+            <?php
+            while($row = sqlsrv_fetch_array($run)) {
+                ?>
+                <tr>
+                <td><?php echo $row["Producator"];?></td>
+                <td><?php echo $row["Stoc"];?></td>
+                </tr>
+            <?php
+            }
+            ?>
+            </table>
+        </div>
+        <div class="wrapper">
+            <?php
+            $sql="SELECT A.Nume, A.Prenume, SUM(L.OreReparatie) OreLucrate FROM Angajati A
+            JOIN Laptopuri L ON L.ReparatorID = A.AngajatID
+            GROUP BY A.Nume, A.Prenume
+            HAVING SUM(L.OreReparatie) = (SELECT TOP 1 SUM(L1.OreReparatie) FROM Laptopuri L1
+                                            GROUP BY L1.ReparatorID
+                                            ORDER BY SUM(L1.OreReparatie) DESC)"; //interogare complexa 1
+            $run = sqlsrv_query($conn, $sql);
+            ?>
+            <table>
+                <tr>
+                    <th>Nume</th>
+                    <th>Prenume</th>
+                    <th>Ore Lucrate</th>
+                </tr>
+            <?php
+            while($row = sqlsrv_fetch_array($run)) {
+                ?>
+                <tr>
+                <td><?php echo $row["Nume"];?></td>
+                <td><?php echo $row["Prenume"];?></td>
+                <td><?php echo $row["OreLucrate"];?></td>
+                </tr>
+            <?php
+            }
+            ?>
+            </table>
+        </div>
+        <div class="wrapper">
+            <?php
+            $sql="SELECT TC.Nume 
+            FROM TipComponente TC
+            WHERE NOT EXISTS (SELECT * FROM Componente C WHERE C.TipID = TC.TipID)"; //interogare complexa 2
+            $run = sqlsrv_query($conn, $sql);
+            ?>
+            <table>
+                <tr>
+                    <th>Componente</th>
+                </tr>
+            <?php
+            while($row = sqlsrv_fetch_array($run)) {
+                ?>
+                <tr>
+                <td><?php echo $row["Nume"];?></td>
+                </tr>
+            <?php
+            }
+            ?>
+            </table>
+        </div>
+        <div class="wrapper">
+            <form action="index.php" method="POST">
+                <label for="pret">Pretul reparatiei:</label><input type="text" name="pret" placeholder="Pret reparatie..." required>
+                <br>
+                <input type="submit" name="trimite-pret">
+            </form>
+            <?php
+            if (isset($_POST["trimite-pret"])) {
+                $pret=$_POST["pret"];
+            }
+            else $pret = 0;
+            $sql="SELECT P.Nume Model, L.Nume Proprietar FROM Laptopuri L
+            JOIN Producatori P ON L.ProducatorID = P.ProducatorID
+            WHERE L.LaptopID IN (SELECT LC.LaptopID FROM LaptopComponenta LC
+                                JOIN Componente C ON LC.ComponentaID = C.ComponentaID
+                                GROUP BY LC.LaptopID
+                                HAVING SUM(C.Pret)>'$pret')";//variabila //interogare complexa 3
+            $run = sqlsrv_query($conn, $sql);
+            ?>
+            <table>
+                <tr>
+                    <th>Proprietar</th>
+                    <th>Model</th>
+                </tr>
+            <?php
+            while($row = sqlsrv_fetch_array($run)) {
+                ?>
+                <tr>
+                <td><?php echo $row["Proprietar"];?></td>
+                <td><?php echo $row["Model"];?></td>
+                </tr>
+            <?php
+            }
+            ?>
+            </table>
+        </div>
+        <div class="wrapper">
+        <?php
+            $sql="SELECT A.Nume, A.Prenume FROM Angajati A
+            WHERE NOT EXISTS (SELECT L.LaptopID FROM Laptopuri L WHERE L.ReparatorID = A.AngajatID)";
+            $run = sqlsrv_query($conn, $sql);
+            ?>
+            <table>
+                <tr>
+                    <th>Nume</th>
+                    <th>Prenume</th>
+                </tr>
+            <?php
+            while($row = sqlsrv_fetch_array($run)) {
+                ?>
+                <tr>
+                <td><?php echo $row["Nume"];?></td>
+                <td><?php echo $row["Prenume"];?></td>
+                </tr>
+            <?php
+            }
+            ?>
+            </table>
         </div>
 
         <?php

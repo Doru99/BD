@@ -73,9 +73,20 @@ th{
 
 form{
     margin:0;
+    width: 100%;
+    text-align: center;
 }
 
-input[type="submit"]{
+input[type="submit"] {
+    background-color:var(--blue-color);
+    margin: auto auto;
+    border: none;
+    color: var(--white-color);
+    padding: 10px;
+    border-radius: 25px;
+}
+
+td > form > input[type="submit"]{
   position: relative;
   display: inline-block;
   width: 1.5rem;

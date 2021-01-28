@@ -1,7 +1,7 @@
 <?php
 session_start();
 $_SESSION = array();
-$conn=sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS",array("Database"=>"GSM_OpreaStefanTeodor_333AA"));
+$conn=sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS",array("Database"=>"GSM_OpreaStefanTeodor_333AA")); //conexiune
 
 ?>
 
