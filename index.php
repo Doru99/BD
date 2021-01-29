@@ -48,7 +48,9 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
 
         if (isset($_POST["Delete"])) {
             $nume_comp = $_POST["component_del"];
+            echo $nume_comp;
             $query="DELETE FROM Componente WHERE Nume = '$nume_comp'"; //delete tabel 2
+            echo $query;
             sqlsrv_query($conn, $query);
         }
 
@@ -79,7 +81,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
         <div id="laptop_list">
             <?php
             $query = "SELECT L.Nume Proprietar, P.Nume Model, A.Nume, A.Prenume, L.OreReparatie FROM Laptopuri L
-            JOIN Angajati A ON A.AngajatID = L.ReparatorID 
+            LEFT JOIN Angajati A ON A.AngajatID = L.ReparatorID 
             JOIN Producatori P ON L.ProducatorID = P.ProducatorID"; //interogare simpla 2
             $run = sqlsrv_query($conn, $query);
             while ($row = sqlsrv_fetch_array($run)) {
@@ -142,6 +144,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
         </div>
 
         <div id="stoc_list">
+            <span class="title">Stoc</span>
             <form class="filter" action="index.php" method="POST">
                 <input type="checkbox" name="Motherboard"><label for="Motherboard">Placi de baza</label>
                 <br>
@@ -438,6 +441,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
         </div>
 
         <div class="wrapper">
+            <span class="title">Angajatii cu cele mai multe laptopuri reparate</span>
              <?php
                 $sql="SELECT A.Nume, A.Prenume, COUNT(L.LaptopID) Laptopuri FROM Angajati A
                 LEFT JOIN Laptopuri L ON A.AngajatID = L.ReparatorID
@@ -466,6 +470,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
         </div>
 
         <div class="wrapper">
+            <span class="title">Cel mai mare furnizor</span>
             <?php
             $sql="SELECT TOP 1 P.Nume Producator, SUM(C.Stoc) Stoc FROM Producatori P
             JOIN Componente C ON P.ProducatorID = C.ProducatorID
@@ -491,6 +496,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
             </table>
         </div>
         <div class="wrapper">
+            <span class="title">Angajatul lunii</span>
             <?php
             $sql="SELECT A.Nume, A.Prenume, SUM(L.OreReparatie) OreLucrate FROM Angajati A
             JOIN Laptopuri L ON L.ReparatorID = A.AngajatID
@@ -520,6 +526,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
             </table>
         </div>
         <div class="wrapper">
+            <span class="title">Lipsa stoc</span>
             <?php
             $sql="SELECT TC.Nume 
             FROM TipComponente TC
@@ -542,6 +549,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
             </table>
         </div>
         <div class="wrapper">
+            <span class="title">Costuri de reparatie</span>
             <form action="index.php" method="POST">
                 <label for="pret">Pretul reparatiei:</label><input type="text" name="pret" placeholder="Pret reparatie..." required>
                 <br>
@@ -578,6 +586,7 @@ $conn = sqlsrv_connect("DESKTOP-D8TQVLE\SQLEXPRESS", array("Database"=>"GSM_Opre
             </table>
         </div>
         <div class="wrapper">
+            <span class="title">Angajati ce nu repara laptopuri</span>
         <?php
             $sql="SELECT A.Nume, A.Prenume FROM Angajati A
             WHERE NOT EXISTS (SELECT L.LaptopID FROM Laptopuri L WHERE L.ReparatorID = A.AngajatID)";

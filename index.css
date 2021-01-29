@@ -139,6 +139,13 @@ hr{
   font-size: 24px;
 }
 
+.title{
+  display: block;
+  font-size: 20px;
+  font-weight: bolder;
+  margin-bottom: 2%;
+}
+
 .wrapper:hover{
   box-shadow: 5px 5px 15px 5px rgba(0,0,0,0.4);
 }
